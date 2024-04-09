@@ -1,17 +1,24 @@
 import instance from "src/config/axiosConfig";
 import filterObject from "src/utils/filterObject";
 
-//Display Itineraries :
-export const getItineraries = async (search = '') => {
-  try {
-    const response = await instance.get(`/itineraries?search=${search}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching itineraries:', error);
-    throw error; 
-  }
-};
-
+// Display Itineraries with search and category filters
+export const getItineraries = async (search = '', category = '') => {
+    try {
+      let url = `/itineraries?`;
+      if (search) {
+        url += `search=${search}&`;
+      }
+      if (category) {
+        url += `category=${category}`;
+      }
+      const response = await instance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching itineraries:', error);
+      throw error;
+    }
+  };
+  
 export const addList = async (itineraryId) => {
     try {
         const response = await instance.post(`/itineraries/${itineraryId}/visit`);
